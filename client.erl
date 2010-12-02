@@ -17,7 +17,13 @@ init_client(ServerPid) ->
 process_requests() ->
 receive 
      {message, Value, Name} ->
-        io:format("[~s] bidded with value ~s", [Name, Value]), 
+        io:format("[~s] bidded with value ~s ~n", [Name, Value]), 
+        process_requests();
+     {newbid, Value}->
+        io:format("New bid was started with inital value ~s ~n",  [Value]), 
+        process_requests();
+     {win, Value}->
+        io:format("Bid won with value ~s ~n",  [Value]), 
         process_requests()
 end.
 
@@ -25,6 +31,7 @@ end.
 process_commands(ServerPid, MyName, ClientPid) ->
   %% Read from standard input and send to server 
   Value = io:get_line("-> "), 
+  %Value = io:fread("->", "~d"),
   if
    	Value == "exit\n" -> 
       	ServerPid ! {client_leave_req, MyName, ClientPid}, 
