@@ -31,12 +31,12 @@ end.
 process_commands(ServerPid, MyName, ClientPid) ->
   %% Read from standard input and send to server 
   Value = io:get_line("-> "), 
-  %Value = io:fread("->", "~d"),
   if
    	Value == "exit\n" -> 
       	ServerPid ! {client_leave_req, MyName, ClientPid}, 
       	unregister(client);
     true ->   
       ServerPid ! {bid, MyName, Value}, 
+      io:format("Sent with value ~s ~n", [Value]),
       process_commands(ServerPid, MyName, ClientPid)
   end.

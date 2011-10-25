@@ -16,6 +16,7 @@ process_requests( Bid, Clients, NumBids)->
         UpdatedClients = lists:delete(From,Clients),
         process_requests(Bid, UpdatedClients, NumBids);
       {bid, Name, Value}->
+         io:format("Bid,recvd"),
          if
                 Value > Bid->
                     broadcast(Clients, {message, Value, Name}), %sending all the clients the proposed value by Name, which wins up to now
@@ -28,10 +29,10 @@ process_requests( Bid, Clients, NumBids)->
             if
                 NumBids > 0 ->
                     broadcast(Clients, {win, Bid}),
-                    io:format("[Agent] Auction over: Won with value ~w ",[Bid]);
+                    io:format("[Agent] Auction over: Won with value ~s ",[Bid]);
                 true->
                     NewBid = (Bid /2),
-                    io:format("[Agent] A new auction is started with value ~w ~n",[NewBid]),
+                    io:format("[Agent] A new auction is started with value ~s ~n",[NewBid]),
                     broadcast( Clients, {newbid, NewBid}),
                     process_requests(NewBid, Clients ,0)
             end
