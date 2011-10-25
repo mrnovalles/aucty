@@ -1,0 +1,10 @@
+aucty
+======
+
+Description
+-----------
+This is a simple implementation of the an English auction system where there is an auction agent who proposes a value and receives all the bids from the other part, the clients.
+After some time, if there are one or more bids then the auction is won by the highest bidder, if there are no bids, then the auction restarts with half the previous value.
+
+by Mariano Vallés 2010
+Concurrent and Distributed Programming - EMDC Master Course - UPC Barcelona
